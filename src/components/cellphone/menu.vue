@@ -15,6 +15,7 @@
         <span slot="title">设备分组</span>
       </el-menu-item>
       <!-- 添加设备 路由 从 设备管理 添加设备按钮点击跳转 -->
+      <!-- 分组信息 路由 从 设备分组 编辑按钮跳转 -->
     </el-menu>
 </template>
 

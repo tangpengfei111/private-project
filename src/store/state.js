@@ -1,4 +1,5 @@
 const state = {
-    list:[]
+    list:[],
+    cellphoneGroupMessage:[]
 }
 export default state

@@ -63,17 +63,18 @@ http.createServer(function (req,res) {
                         }
                     }
                     write('./basicData.json',JSON.stringify(ary),() => {
-                        res.end('sucess')
+                        res.end('success')
                     })
                 })
             }else {
                 read('./basicData.json',(data) => {
                     let ary = JSON.parse(data);
-                    obj.id = Math.random(); 
+                    obj.id = Math.random();
+                    obj.cellphoneGroup = '';
                     // 添加ID为随机数 
                     ary.push(obj);
                     write('./basicData.json',JSON.stringify(ary),() => {
-                        res.end('sucess')
+                        res.end('success')
                     })
                 })
             }
@@ -81,7 +82,7 @@ http.createServer(function (req,res) {
     }
 
     // 删除手机设备
-    if (pathname == '/delCellphone') {
+    if (pathname === '/delCellphone') {
         read('./basicData.json',(data) => {
             let id = query.id;
             if (id === undefined) {
@@ -89,7 +90,7 @@ http.createServer(function (req,res) {
             }else {
                 let ary = JSON.parse(data);
                 ary = ary.filter((item) => {
-                    return item.id !== id;
+                    return item.id !== (id * 1);
                 })
                 write('./basicData.json',JSON.stringify(ary),() => {
                     // 重新写入数据 已经筛选出ID和前端相同的项(删除)
@@ -98,15 +99,53 @@ http.createServer(function (req,res) {
             }
         })
     }
+    
+    // 所有设备信息
+    if (pathname === '/cellphoneGroupMessage') {
+        read('./groupData.json',(data) => {
+            res.end(data)
+        })
+    }
 
     // 添加设备分组
-    if (pathname == 'addCellphoneGroup') {
-
+    if (pathname === '/addCellphoneGroup') {
+        let str = '';
+        req.on('data',function (d) {
+            str += d
+        })
+        req.on('end',function() {
+            let obj = JSON.parse(str);
+            read('./groupData.json',(data) => {
+                let ary = JSON.parse(data);
+                if (obj.id) {
+                    for (let i = 0; i < ary.length; i++) {
+                        if (ary[i].id == obj.id) {
+                            ary[i] = obj
+                        }
+                    }
+                }else {
+                    obj.id = Math.random();
+                    ary.push(obj);
+                }
+                write('./groupData.json',JSON.stringify(ary),() => {
+                    res.end('success')
+                })
+            })
+        })
     }
 
     // 删除设备分组
-    if (pathname == 'delCellphoneGroup') {
-        
+    if (pathname == '/delCellphoneGroup') {
+        read('./groupData.json',(data) => {
+            let id = query.id;
+            let ary = JSON.parse(data);
+            ary = ary.filter((item) => {
+                return item.id !== (id * 1);
+            })
+            write('./groupData.json',JSON.stringify(ary),() => {
+                res.end('success')
+            })
+        })
     }
 
 

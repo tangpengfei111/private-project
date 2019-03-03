@@ -11,7 +11,7 @@
     import menu from './menu.vue'
     export default {
         components: {
-            'my-menu': menu,
+            'my-menu': menu
         }
     }
 </script>

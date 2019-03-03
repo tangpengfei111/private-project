@@ -53,7 +53,14 @@ export default new Router({
               meta: {
                 til: '添加设备'
               }
-            }
+            },
+            // {
+            //   path: '/gruopMessage',
+            //   component:() => import('./components/cellphone/gruopMessage.vue'),
+            //   meta: {
+            //     til: '分组详情'
+            //   }
+            // }
           ]
         },
         {

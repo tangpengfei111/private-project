@@ -1,11 +1,11 @@
 <template>
     <el-container>
         <el-header>
-            <my-search til='group'></my-search>
+            <my-search til='group' ref='mychild'></my-search>
         </el-header>
         <el-main>
             <el-table
-                :data="groupData"
+                :data="groupData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
                 style="width: 100%"
                 :default-sort = "{prop: 'date', order: 'descending'}">
                 <el-table-column
@@ -16,7 +16,7 @@
                     prop="cellphoneGroup"
                     align="center"
                     label="设备分组"
-                    width="100">
+                    width="180">
                 </el-table-column>
                 <el-table-column
                     prop="groupDescribe"
@@ -27,13 +27,22 @@
                     fixed="right"
                     align="center"
                     label="操作"
-                    width="170">
+                    width="150">
                     <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="primary" size="small">编辑</el-button>
-                        <el-button type="danger" size="small">删除</el-button>
+                        <el-button @click="editor(scope.row)" type="primary" size="small">编辑</el-button>
+                        <el-button @click='del(scope.row)' type="danger" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
+            <div style="text-align: center;margin-top: 30px;">
+                <el-pagination
+                background
+                :total="total"
+                layout="prev, pager, next"
+                :page-size="pagesize"
+                @current-change='currentChange'>
+                </el-pagination>
+            </div>
         </el-main>
     </el-container>
 </template>
@@ -41,29 +50,26 @@
 <script>
     import search from './search'
     export default {
-       components: {
-           'my-search': search
-       },
-       data() {
-            return {
-                groupData: [{
-                cellphoneGroup: '测试',
-                groupDescribe: '这是一个测试分组',
-                }, {
-                cellphoneGroup: '通信连',
-                groupDescribe: '按单位进行分组',
-                }, {
-                cellphoneGroup: '导航连',
-                groupDescribe: '按单位进行分组',
-                }, {
-                cellphoneGroup: '测试',
-                groupDescribe: '这是一个测试分组',
-                }]
+        data() {
+            
+        }
+        components: {
+            'my-search': search
+        },
+        created() {
+            this.$store.dispatch('getCellphoneList')
+        },
+        computed: {
+            groupData() {
+                return this.$store.state.cellphoneGroupMessage;
             }
         },
         methods: {
-            handleClick() {
-                console.log(1)
+            editor(row) {
+                this.$refs.mychild.callout(row);
+            },
+            del(row) {
+                this.$store.dispatch('delCellphoneGroupData',row);
             }
         }
     }
