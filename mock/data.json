@@ -1,0 +1,76 @@
+{
+    "entity": {
+        "id": 6,
+        "parentMenuId": 0,
+        "name": "userManage",
+        "icon": "el-icon-news",
+        "alias": "用户管理",
+        "state": "ENABLE",
+        "sort": 1,
+        "value": null,
+        "type": "NONE",
+        "discription": "用于用户管理的菜单",
+        "createUserId": 1
+    },
+    "childs": [{
+        "entity": {
+            "id": 7,
+            "parentMenuId": 6,
+            "name": "accountManage",
+            "icon": "el-icon-phone-outline\r\n",
+            "alias": "帐号管理",
+            "state": "ENABLE",
+            "sort": 0,
+            "value": "",
+            "type": "NONE",
+            "discription": "用于帐号管理的菜单",
+            "createUserId": 1
+        },
+        "childs": [{
+            "entity": {
+                "id": 14,
+                "parentMenuId": 7,
+                "name": "emailManage",
+                "icon": "el-icon-sold-out\r\n",
+                "alias": "邮箱管理",
+                "state": "ENABLE",
+                "sort": 0,
+                "value": "/content/email",
+                "type": "LINK",
+                "discription": "用于邮箱管理的菜单",
+                "createUserId": 1
+            },
+            "childs": null
+        }, {
+            "entity": {
+                "id": 13,
+                "parentMenuId": 7,
+                "name": "passManage",
+                "icon": "el-icon-service\r\n",
+                "alias": "密码管理",
+                "state": "ENABLE",
+                "sort": 1,
+                "value": "/content/pass",
+                "type": "LINK",
+                "discription": "用于密码管理的菜单",
+                "createUserId": 1
+            },
+            "childs": null
+        }]
+    }, {
+        "entity": {
+            "id": 8,
+            "parentMenuId": 6,
+            "name": "integralManage",
+            "icon": "el-icon-picture",
+            "alias": "积分管理",
+            "state": "ENABLE",
+            "sort": 1,
+            "value": "/user/integral",
+            "type": "LINK",
+            "discription": "用于积分管理的菜单",
+            "createUserId": 1
+        },
+        "childs": null
+    }]
+}

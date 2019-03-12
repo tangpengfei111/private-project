@@ -20,23 +20,13 @@ function write(url,data,callback) {
     })
 }
 
-// 数组去重
-function universe(ary) {
-    let arr = [];
-    ary.forEach(item => {
-        arr.indexOf(item) == -1 ? arr.push(item) : null;
-    })
-    return arr;
-}
-
-
-
+function getTress(list, parentId) {
         /**
      * 树状的算法
      * @params list     代转化数组
      * @params parentId 起始节点
      */
-    function getTress(list, parentId,code) {
+    function getList(list, parentId) {
         let items= {};
         // 获取每个节点的直属子节点，*记住是直属，不是所有子节点
         for (let i = 0; i < list.length; i++) {
@@ -48,12 +38,9 @@ function universe(ary) {
                 items[key].push(list[i]);
             }
         }
-        if (code == 'undefined') {
-            return find(items,parentId,code);
-        }else {
-            return formatTree(items, parentId);
-        }
+        return formatTree(items, parentId);
     }
+    getlist(list, parentId);
     /**
      * 利用递归格式化每个节点
      */
@@ -74,66 +61,40 @@ function universe(ary) {
         }
         return result;
     }
-
-function find(items, parentId,code) {
-    let result = [],children = {};
-    if (!items[parentId]) {
-        return null;
-    }
-
-    for (let t of items[parentId]) {
-        t.state = "ENABLE";
-        children.childs = formatTree(items, t.code)
-        let obj = {
-            "entity":t,
-            "childs": children.childs
-        }
-        result.push(obj);
-    }
-    return result;
 }
 
-
-
-// 初始化用户数据
-function retrieveUser() {
-    fs.readFile('./basicData.json','utf-8',(err,data) => {
-        if (!err) {
-            let ary = [];
-            var obj = {}
-            let d = JSON.parse(data);
-            for (let i = 0; i < d.length; i++) {
-                obj = {
-                   "phone":d[i].name,
-                   "state":d[i].state,
-                   "id":d[i].id
-                }
-                ary.push(obj)
-            }
-            fs.readFile('./userData.json','utf-8',(err,data) => {
-                if (!err) {
-                    let str = JSON.parse(data);
-                    str.message.forEach((item) => {
-                        for (let j = 0; j < ary.length; j++) {
-                            if (ary[j].id == item.id) {
-                                
-                                ary[j].department = item.department;
-                                ary[j].name = item.name;
-                            }
-                        }
-                    })
-                    str.message = ary;
-                    fs.writeFile('./userData.json',JSON.stringify(str),'utf-8',(err) => {
-                        if(err) {
-                            console.log(err)
-                        }
-                    })
-                }
-            })
-        }
-    
-    })
-}
+// function recursiveList() {
+//     fs.readFile('./userData.json','utf-8',(err,data) => {
+//         if(!err) {
+//             let d = JSON.parse(data);
+//             let list = [],obj = {};
+//             let ary = [].concat(d);
+//             d.department.forEach((item) => {
+//                 if (item.higherCode == 0) {
+//                     item.type = "NODE";
+//                     item.state = "ENABLE"
+//                     obj = {
+//                         "entity": item,
+//                         "childs": null
+//                     }
+//                     list.push(obj);
+//                 }else {
+//                     for(let i = 0; i < ary.length; i++) {
+//                         while (item.higherCode ) {
+                        
+//                         }ary[i]
+//                     }
+                    
+//                 }
+//             })
+//             function fn(ary,obj) {
+//                 ary = ary.map((item) => {
+//                     return 
+//                 })
+//             }
+//         }
+//     })
+// }
 
 
 http.createServer(function (req,res) {
@@ -280,23 +241,21 @@ http.createServer(function (req,res) {
     }
     // 删除部门数据
     if (pathname === '/delDepartmentData') {
-        read('./userData.json',(data) => {
+        read('./usuerData.json',(data) => {
             let code = query.code;
             if (code === undefined) {
                 res.end('没有此部门代码')
             }else {
                 let d = JSON.parse(data);
                 let ary = d.department;
-                let arr = [];
-                for (let i = 0; i < ary.length; i++) {
-                    // if (ary[i].code == code && ) 
-                }
+                ary = ary.filter((item) => {
+                    return item.code !== (code * 1);
+                })
                 d.department = ary;
-                let list = getTress(ary,0);
-                d.list = list;
-                write('./user1Data.json',JSON.stringify(d),() => {
+                write('./userData.json',JSON.stringify(d),() => {
                     // 重新写入数据 已经筛选出ID和前端相同的项(删除)
                     res.end('success')
+                    getTress(d,0)
                 })
             }
         })
@@ -309,22 +268,18 @@ http.createServer(function (req,res) {
         })
         req.on('end',function() {
             let obj = JSON.parse(str);
-            obj.mumbers = [];
-            if (!obj.higherCode) {
-                obj.higherCode = 0;
+            if (!obj.heigherCode) {
+                obj.heigherCode = 0;
                 obj.type = 'NODE';
-            }else {
-                obj.type = 'LINK';
             }
-            read('./userData.json',(data) => {
+            read('./usuerData.json',(data) => {
                 let d = JSON.parse(data);
                 ary = d.department
                 ary.push(obj);
                 d.department = ary;
-                let list = getTress(ary,0)
-                d.list = list;
-                write('./userData.json',JSON.stringify(d),() => {
+                write('./usuerData.json',JSON.stringify(d),() => {
                     res.end('success')
+                    getTress(d,0)
                 })
             })
         })
@@ -337,130 +292,24 @@ http.createServer(function (req,res) {
         })
         req.on('end',function() {
             let obj = JSON.parse(str);
-            read('./userData.json',(data) => {
+            read('./usuerData.json',(data) => {
                 let d = JSON.parse(data);
                 let ary = d.department;
                 for (let i = 0; i < ary.length; i++) {
                     if (ary[i].code == obj.code) {
-                       for(let k in ary[i]) {
-                           if(obj[k]) {
-                               ary[i][k] = obj[k];
-                           }
-                       }
+                        ary[i] = obj
                     }
                 }
-                d.department = ary;
-                let list = getTress(ary,0);
-                d.list = list;
+                d.department = ary
                 write('./userData.json',JSON.stringify(d),() => {
                     res.end('success')
-                })
-            })
-        })
-    }
-    
-    // 关联部门
-    if (pathname === '/relevanceDepartment') {
-        let str = '';
-        req.on('data',function (d) {
-            str += d
-        })
-        req.on('end',function() { 
-            let obj = JSON.parse(str);
-            read('./userData.json',(data) => {
-                let d = JSON.parse(data);
-                let messageList = d.message;
-                let change = [],itemObj = {};
-                messageList.forEach((item) => {
-                    for (let i = 0; i < obj.itemData.length; i++) {
-                        if (item.id == obj.itemData[i]) {
-                            if(item.department != '其他') {
-                                itemObj = {
-                                    "name":item.department,
-                                    "id": item.id
-                                }
-                                change.push(itemObj);
-                            }
-                            item.department = obj.selectDepartment;          
-                        }
-                    }
-                })
-                let ary = d.department;
-                ary.forEach((item) => {
-                    if (change != []) {
-                        for (let i = 0; i < change.length; i++) {
-                            if (change[i].name == item.name) {
-                                item.members = item.members.filter(cur => {
-                                    return cur != change[i].id;
-                                })
-                            }
-                        }
-                    }
-                    if (item.name == obj.selectDepartment || item.code == obj.rootCode) {
-                        item.members = item.members.concat(obj.itemData);
-                        item.members = universe(item.members);
-                    }
-                })
-                d.department = ary;
-               
-                let list = getTress(ary,0);
-                d.list = list;
-                write('./userData.json',JSON.stringify(d),() => {
-                    res.end('success')
+                    getTress(d,0)
                 })
             })
         })
     }
 
 
-    // 添加用户组
-    if (pathname === '/addUserGroupData') {
-        let str = '';
-        req.on('data',function (d) {
-            str += d
-        })
-        req.on('end',function() {
-            let obj = JSON.parse(str);
-            if (obj.members == 'undefined') {
-                obj.members = [];
-            }
-            read('./userData.json',(data) => {
-                let d = JSON.parse(data);
-                let ary = d.group;
-                if (obj.id) {
-                    for (let i = 0; i < ary.length; i++) {
-                        if (ary[i].id == obj.id) {
-                            ary[i] = obj
-                        }
-                    }
-                }else {
-                    obj.id = Math.random();
-                    ary.push(obj);
-                }
-                d.group = ary;
-                write('./userData.json',JSON.stringify(d),() => {
-                    res.end('success')
-                })
-            })
-        })
-    }
-
-    // 删除用户组
-    if (pathname == '/delUserGroupData') {
-        read('./userData.json',(data) => {
-            let id = query.id;
-            let d = JSON.parse(data);
-            let ary = d.group;
-            ary = ary.filter((item) => {
-                return item.id !== (id * 1);
-            })
-            d.group = ary;
-            write('./userData.json',JSON.stringify(d),() => {
-                res.end('success')
-            })
-        })
-    }
-    
 }).listen('8000',function() {
     console.log('成功启动8000端口')
 })

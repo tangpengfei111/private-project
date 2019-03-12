@@ -7,7 +7,9 @@
             <el-table
                 :data="groupData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
                 style="width: 100%"
-                :default-sort = "{prop: 'date', order: 'descending'}">
+                :default-sort = "{prop: 'date', order: 'descending'}"
+                @select='selectChange'
+                @select-all='selectChangeAll'>
                 <el-table-column
                     type="selection"
                     width="55">
@@ -51,8 +53,12 @@
     import search from './search'
     export default {
         data() {
-            
-        }
+            return {
+                pagesize:6,
+                currentPage:1,
+                selectAry:[]
+            }
+        },
         components: {
             'my-search': search
         },
@@ -61,7 +67,10 @@
         },
         computed: {
             groupData() {
-                return this.$store.state.cellphoneGroupMessage;
+                return this.$store.state.cellphoneGroup;
+            },
+            total() {
+                return this.$store.state.cellphoneGroup.length + 1;
             }
         },
         methods: {
@@ -70,6 +79,21 @@
             },
             del(row) {
                 this.$store.dispatch('delCellphoneGroupData',row);
+            },
+            currentChange(currentPage){
+                this.currentPage = currentPage;
+            },
+            selectChange(row) {
+                if (row[0]) {
+                    row[0].isSelect = true
+                    this.selectObj.push[row[0]]
+                }else {
+
+                }
+                console.log(row)
+            },
+            selectChangeAll(row) {
+                console.log(row)
             }
         }
     }

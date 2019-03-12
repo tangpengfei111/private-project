@@ -95,10 +95,10 @@
         },
         computed: {
             listData() {
-                return this.$store.state.list;
+                return this.$store.state.cellphoneMessage;
             },
             total() {
-                return this.$store.state.list.length + 1;
+                return this.$store.state.cellphoneMessage.length + 1;
             }
 
         },

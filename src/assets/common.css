@@ -11,5 +11,15 @@ body,html {
     min-width: 1088px;
 }
 .el-dialog__body {
-    padding: 0 20px 30px 20px;
+    padding: 0 20px;
+}
+.el-submenu__title {
+    height: 30px;
+    line-height: 30px;
+}
+.el-form-item__content {
+    height: 60px;
+}
+.el-scrollbar__wrap {
+    overflow-x: hidden;
 }

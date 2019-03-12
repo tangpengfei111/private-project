@@ -1,14 +1,14 @@
 <template>
     <el-container class='box'>
         <el-aside width="200px">
-            <my-menu></my-menu>
+            <my-menu til='cellphone'></my-menu>
         </el-aside>
         <router-view></router-view>
     </el-container>
 </template>
 
 <script>
-    import menu from './menu.vue'
+    import menu from '@/common/menu.vue'
     export default {
         components: {
             'my-menu': menu

@@ -9,7 +9,7 @@
 
     
     <!-- 设备分组- 删除已选按钮 -->
-    <el-dialog title="删除提示" :visible.sync="delGroupVisible" width="30%" :show-close="false" top='30vh'>
+    <el-dialog title="删除提示" :visible="delGroupVisible" width="30%" :show-close="false" top='30vh'>
       <div class="line">您确定要删除选中的设备组吗？</div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="delGroupVisible = false">取 消</el-button>
@@ -18,7 +18,7 @@
     </el-dialog>
 
     <!-- 设备分组- 添加分组 按钮-->
-    <el-dialog title="添加分组" :visible.sync="addGroupVisible" width='35%' top='17vh'>
+    <el-dialog title="添加分组" :visible="addGroupVisible" width='35%' :show-close="false" top='17vh'>
         <el-form :model="groupData">
         <el-form-item label="设备分组">
             <el-input v-model="groupData.cellphoneGroup" autocomplete="off" class='inp'></el-input>
@@ -59,6 +59,7 @@ export default {
     },
     delGroup() {
       this.delGroupVisible = false;
+      this.$store.dispatch()
     },
     addCellphone() {
       return this.$router.push('/addList');

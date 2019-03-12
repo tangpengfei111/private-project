@@ -75,6 +75,7 @@ export default {
       this.operator = obj.operator;
       this.ownership = obj.ownership;
       this.state = obj.state;
+      this.id = obj.id;
   },
   methods: {
     onSubmit() {
@@ -85,12 +86,13 @@ export default {
             enrollDate: this.enrollDate,
             operator:this.operator,
             ownership:this. ownership,
-            state:this.state
+            state:this.state,
+            id:this.id
         }
         let p = this.$store.dispatch('addCellphone',obj);
         p.then((data) => {
             if (data.data == 'success') {
-                this.$router.push('/management')
+                this.$router.push('/cellphoneManagement')
             }
         })
     }

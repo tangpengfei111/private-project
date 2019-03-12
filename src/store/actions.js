@@ -49,3 +49,58 @@ export function delCellphoneGroupData({commit},option) {
         }
     })
 }
+
+
+export function getUserList({commit}) {
+    axios.get('/allUserMessage').then((data) => {
+        commit('getAllUserData',data.data)
+    })
+}
+
+export function addUserGroup({commit},option) {
+    axios.post('/addUserGroupData',option).then((data) => {
+        if(data.data == 'success') {
+            axios.get('/allUserMessage').then((data) => {
+                commit('getAllUserData',data.data)
+            })
+        }
+    })
+}
+
+export function addDepartment({commit},option) {
+    return axios.post('/addDepartmentData',option)
+}
+
+export function changeDepartment({commit},option) {
+    axios.post('/changeDepartmentData',option)
+}
+
+export function delUserGroup({commit},option) {
+    axios.get('/delUserGroupData',{
+        params: {
+            id:option.id
+        }
+    }).then((data) => {
+        commit('delUserGroup',option)
+    })
+}
+export function delDepartment({commit},option) {
+    console.log(option)
+    // axios.get('/delDepartmentData',{
+    //     params: {
+    //         code:option.code
+    //     }
+    // }).then((data) => {
+    //     // commit('delDepartment',option)
+    //     console.log(data.data)
+    // })
+}
+export function relevanceDepartment({commit},option) {
+    axios.post('/relevanceDepartment',option).then((data) => {
+       if(data.data == 'success') {
+        axios.get('/allUserMessage').then((data) => {
+            commit('getAllUserData',data.data)
+        })
+       }
+    })
+}

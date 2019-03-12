@@ -6,27 +6,27 @@
                     <span>仪表板</span>
                 </div>
             </router-link>
-            <router-link to='/cellphone'>
+            <router-link to='/cellphoneManagement'>
                 <div class='iconfont icon-shouji'>
                     <span>设备管理</span>
                 </div>
             </router-link>
-            <router-link to='/user'>
+            <router-link to='/userManagement'>
                 <div class='iconfont icon-Userpersonavtar'>
                     <span>用户管理</span>
                 </div>
             </router-link>
-            <router-link to='/application'>
+            <router-link to='/applicationList'>
                 <div class='iconfont icon-application'>
                     <span>应用管理</span>
                 </div>
             </router-link>
-            <router-link to='/strategy'>
+            <router-link to='/strategyList'>
                 <div class='iconfont icon-strategy'>
                     <span>策略管理</span>
                 </div>
             </router-link>
-            <router-link to='/push'>
+            <router-link to='/newInformation'>
                 <div class='iconfont icon-Push'>
                     <span>推送管理</span>
                 </div>
@@ -77,7 +77,10 @@
                     left: 15%;  
                 }    
             }
-        }    
+        }
+        &>a.current {
+            color: rgb(72, 19, 218);
+        }
         .admin {
             position: absolute;
             top: 28px;

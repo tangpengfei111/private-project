@@ -1,32 +1,57 @@
 export function getCellListData(state,option) {
-    state.list = option;
+    state.cellphoneMessage = option;
+}
+export function getAllUserData(state,option) {
+    state.userMessage = option.message;
+    state.userGroup = option.group;
+    state.departmentList = option.department;
+    state.userMenusList = option.list;
 }
 
 export function delCellListData(state,option) {
-    state.list = state.list.filter((item) => {
+    state.cellphoneMessage = state.cellphoneMessage.filter((item) => {
         return item.id !== option.id
     })
 }
 
 export function getCellphoneGroupData(state,option) {
-    state.cellphoneGroupMessage = option;
+    state.cellphoneGroup = option;
 }
 
 export function addGroupList(state,option) {
     if (option.id) {
-        state.cellphoneGroupMessage.forEach((item) => {
+        state.cellphoneGroup.forEach((item) => {
             if (item.id == option.id) {
                 item.cellphoneGroup = option.cellphoneGroup;
                 item.groupDescribe = option.groupDescribe;
             }
         })
     }else {
-        state.cellphoneGroupMessage.push(option)
+        state.cellphoneGroup.push(option)
     }
 }
 
 export function delGroupList(state,option) {
-    state.cellphoneGroupMessage = state.cellphoneGroupMessage.filter((item) => {
+    state.cellphoneGroup = state.cellphoneGroup.filter((item) => {
         return item.id !== option.id
     })
 }
+
+export function userGroupVisibleIsShow(state) {
+    state.userGroupVisible = !state.userGroupVisible;
+} 
+
+export function userDepartmentVisibleIsShow(state) {
+    state.userDepartmentVisible = !state.userDepartmentVisible;
+}
+
+export function delUserGroup(state,option) {
+    state.userGroup = state.userGroup.filter((item) => {
+        return item.id != option.id;
+    })
+}
+// export function delDepartment(state,option) {
+//     state.departmentList = state.departmentList.filter((item) => {
+//         return item.code != option.code;
+//     })
+// }
