@@ -2,6 +2,10 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:8000'
 
 
+export function load({commit},option) {
+    return axios.post('/adminLoad',option)
+}
+
 export function getCellList({commit},option) {
     axios.get('/allCellphoneList').then((data) => {
         commit('getCellListData',data.data)
@@ -68,7 +72,13 @@ export function addUserGroup({commit},option) {
 }
 
 export function addDepartment({commit},option) {
-    return axios.post('/addDepartmentData',option)
+    axios.post('/addDepartmentData',option).then((data) => {
+        if (data.data == 'success') {
+            axios.get('/allUserMessage').then((data) => {
+                commit('getAllUserData',data.data)
+            })
+        }
+    })
 }
 
 export function changeDepartment({commit},option) {

@@ -30,13 +30,13 @@
         <el-dialog title="添加部门" :visible="departmentVisible" :show-close='false' width='35%' top='10vh'>
       <el-form :model="form">
         <el-form-item label="部门代码" label-width="100">
-          <el-input v-model="form.code" autocomplete="off"></el-input>
+          <el-input v-model.number="form.code" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="部门名称" label-width="100">
          <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="上级部门代码" label-width="100">
-         <el-input v-model="form.higherCode" autocomplete="off"></el-input>
+         <el-input v-model.number="form.higherCode" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="部门描述" label-width="100">
          <el-input v-model="form.desc" autocomplete="off"></el-input>
@@ -78,7 +78,8 @@
                 relevanceVisible:false,
                 form: {},
                 rootCode:'',
-                selectDepartment:''
+                selectDepartment:'',
+                judeg: false
             }
         },
         components: {
@@ -156,7 +157,7 @@
             },
             userGroupIsShow() {
                 this.$store.commit('userGroupVisibleIsShow');
-                if(!this.groupVisible) {
+                if(this.form != {}) {
                     for(let k in this.form) {
                         this.form[k] = '';
                     }
@@ -164,11 +165,12 @@
             },
             departmentIsShow() {
                 this.$store.commit('userDepartmentVisibleIsShow');
-                if(!this.departmentVisible) {
+                if(this.form != {}) {
                     for(let k in this.form) {
                         this.form[k] = '';
                     }
                 }
+                this.judeg = true;
             },
             ensureAddUserGroup() {
                 let obj = {
@@ -188,11 +190,17 @@
                     desc:this.form.desc,
                     higherCode: this.form.higherCode
                 }
+                this.$store.commit('userDepartmentVisibleIsShow');
+                if (this.judeg) {
+                    this.$store.dispatch('addDepartment',obj);
+                    this.judeg = false;
+                    return;
+                }
                 if (obj.code && obj.name && obj.desc) {
                     this.$store.dispatch('changeDepartment',obj);
                     // 重复code 由 后端进行对比
                 }
-                this.$store.commit('userDepartmentVisibleIsShow');
+                
             }
         }
     }

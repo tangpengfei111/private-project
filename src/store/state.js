@@ -1,4 +1,5 @@
 const state = {
+    adminInfo:[],
     cellphoneMessage:[],               
     cellphoneGroup:[],
     userMessage:[],

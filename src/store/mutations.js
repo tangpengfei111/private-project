@@ -1,3 +1,7 @@
+export function saveAdminInfo(state, adminInfo){
+    state.adminInfo = adminInfo;
+}
+
 export function getCellListData(state,option) {
     state.cellphoneMessage = option;
 }

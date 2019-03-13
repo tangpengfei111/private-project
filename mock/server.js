@@ -75,29 +75,29 @@ function universe(ary) {
         return result;
     }
 
-function find(items, parentId,code) {
-    let result = [],children = {};
-    if (!items[parentId]) {
-        return null;
-    }
+// function find(items, parentId,code) {
+//     let result = [],children = {};
+//     if (!items[parentId]) {
+//         return null;
+//     }
 
-    for (let t of items[parentId]) {
-        t.state = "ENABLE";
-        children.childs = formatTree(items, t.code)
-        let obj = {
-            "entity":t,
-            "childs": children.childs
-        }
-        result.push(obj);
-    }
-    return result;
-}
+//     for (let t of items[parentId]) {
+//         t.state = "ENABLE";
+//         children.childs = formatTree(items, t.code)
+//         let obj = {
+//             "entity":t,
+//             "childs": children.childs
+//         }
+//         result.push(obj);
+//     }
+//     return result;
+// }
 
 
 
 // 初始化用户数据
 function retrieveUser() {
-    fs.readFile('./basicData.json','utf-8',(err,data) => {
+    fs.readFile('./data/basicData.json','utf-8',(err,data) => {
         if (!err) {
             let ary = [];
             var obj = {}
@@ -110,7 +110,7 @@ function retrieveUser() {
                 }
                 ary.push(obj)
             }
-            fs.readFile('./userData.json','utf-8',(err,data) => {
+            fs.readFile('./data/userData.json','utf-8',(err,data) => {
                 if (!err) {
                     let str = JSON.parse(data);
                     str.message.forEach((item) => {
@@ -123,7 +123,7 @@ function retrieveUser() {
                         }
                     })
                     str.message = ary;
-                    fs.writeFile('./userData.json',JSON.stringify(str),'utf-8',(err) => {
+                    fs.writeFile('./data/userData.json',JSON.stringify(str),'utf-8',(err) => {
                         if(err) {
                             console.log(err)
                         }
@@ -149,9 +149,46 @@ http.createServer(function (req,res) {
         return;
     }
 
+
+    // 用户登录
+    if (pathname == '/adminLoad') {
+        let str = '';
+        req.on('data',function (d) {
+            // post 传数据时 触发
+            str += d
+        })
+        req.on('end',function() {
+            let obj = JSON.parse(str);
+            let option = {
+                "status": '',
+                "user_name": '',
+                "message": 'failure'
+            }
+            read('./data/adminData.json',(data) => {
+                let ary = JSON.parse(data);
+                ary.forEach((item) => {
+                    if (item.user_name == obj.user_name && item.password == obj.password) {
+                        item.status = "已登录";
+                        option = {
+                            "status": item.status,
+                            "user_name": item.user_name,
+                            "message": 'success'
+                        }
+                    }
+                })
+                str = JSON.stringify(option);
+                write('./data/adminData.json',JSON.stringify(ary),() => {
+                    res.end(str)
+                })
+            })        
+        })
+       
+    }
+
+
     // 所有设备列表
     if (pathname == '/allCellphoneList') {
-        read('./basicData.json',(data) => {
+        read('./data/basicData.json',(data) => {
             res.end(data)
         })
     }
@@ -169,7 +206,7 @@ http.createServer(function (req,res) {
             // 若是axios 请求，后台获取的是一个json字符串
             let obj = JSON.parse(str);
             if (obj.id) {
-                read('./basicData.json',(data) => {
+                read('./data/basicData.json',(data) => {
                     let ary = JSON.parse(data);
                     for (let i = 0; i < ary.length; i++) {
                         if (ary[i].id == obj.id * 1) {
@@ -177,18 +214,18 @@ http.createServer(function (req,res) {
                             ary[i] = obj
                         }
                     }
-                    write('./basicData.json',JSON.stringify(ary),() => {
+                    write('./data/basicData.json',JSON.stringify(ary),() => {
                         res.end('success')
                     })
                 })
             }else {
-                read('./basicData.json',(data) => {
+                read('./data/basicData.json',(data) => {
                     let ary = JSON.parse(data);
                     obj.id = Math.random();
                     obj.cellphoneGroup = '';
                     // 添加ID为随机数 
                     ary.push(obj);
-                    write('./basicData.json',JSON.stringify(ary),() => {
+                    write('./data/basicData.json',JSON.stringify(ary),() => {
                         res.end('success')
                     })
                 })
@@ -198,7 +235,7 @@ http.createServer(function (req,res) {
 
     // 删除手机设备
     if (pathname === '/delCellphone') {
-        read('./basicData.json',(data) => {
+        read('./data/basicData.json',(data) => {
             let id = query.id;
             if (id === undefined) {
                 res.end('no ID')
@@ -207,7 +244,7 @@ http.createServer(function (req,res) {
                 ary = ary.filter((item) => {
                     return item.id !== (id * 1);
                 })
-                write('./basicData.json',JSON.stringify(ary),() => {
+                write('./data/basicData.json',JSON.stringify(ary),() => {
                     // 重新写入数据 已经筛选出ID和前端相同的项(删除)
                     res.end('success')
                 })
@@ -217,7 +254,7 @@ http.createServer(function (req,res) {
     
     // 所有设备信息
     if (pathname === '/cellphoneGroupMessage') {
-        read('./cellphoneGroupData.json',(data) => {
+        read('./data/cellphoneGroupData.json',(data) => {
             res.end(data)
         })
     }
@@ -230,7 +267,7 @@ http.createServer(function (req,res) {
         })
         req.on('end',function() {
             let obj = JSON.parse(str);
-            read('./cellphoneGroupData.json',(data) => {
+            read('./data/cellphoneGroupData.json',(data) => {
                 let ary = JSON.parse(data);
                 if (obj.id) {
                     for (let i = 0; i < ary.length; i++) {
@@ -242,7 +279,7 @@ http.createServer(function (req,res) {
                     obj.id = Math.random();
                     ary.push(obj);
                 }
-                write('./cellphoneGroupData.json',JSON.stringify(ary),() => {
+                write('./data/cellphoneGroupData.json',JSON.stringify(ary),() => {
                     res.end('success')
                 })
             })
@@ -251,7 +288,7 @@ http.createServer(function (req,res) {
 
     // 删除设备分组
     if (pathname == '/delCellphoneGroup') {
-        read('./cellphoneGroupData.json',(data) => {
+        read('./data/cellphoneGroupData.json',(data) => {
             let id = query.id;
             let ary = JSON.parse(data);
             ary = ary.filter((item) => {
@@ -268,7 +305,7 @@ http.createServer(function (req,res) {
         retrieveUser();
         let timer = null, t = 0;
         timer = setInterval(() => {
-            read('./userData.json',(data) => {
+            read('./data/userData.json',(data) => {
                 res.end(data)
             })
             t += 10;
@@ -280,7 +317,7 @@ http.createServer(function (req,res) {
     }
     // 删除部门数据
     if (pathname === '/delDepartmentData') {
-        read('./userData.json',(data) => {
+        read('./data/userData.json',(data) => {
             let code = query.code;
             if (code === undefined) {
                 res.end('没有此部门代码')
@@ -294,7 +331,7 @@ http.createServer(function (req,res) {
                 d.department = ary;
                 let list = getTress(ary,0);
                 d.list = list;
-                write('./user1Data.json',JSON.stringify(d),() => {
+                write('./data/user1Data.json',JSON.stringify(d),() => {
                     // 重新写入数据 已经筛选出ID和前端相同的项(删除)
                     res.end('success')
                 })
@@ -316,14 +353,14 @@ http.createServer(function (req,res) {
             }else {
                 obj.type = 'LINK';
             }
-            read('./userData.json',(data) => {
+            read('./data/userData.json',(data) => {
                 let d = JSON.parse(data);
                 ary = d.department
                 ary.push(obj);
                 d.department = ary;
                 let list = getTress(ary,0)
                 d.list = list;
-                write('./userData.json',JSON.stringify(d),() => {
+                write('./data/userData.json',JSON.stringify(d),() => {
                     res.end('success')
                 })
             })
@@ -337,7 +374,7 @@ http.createServer(function (req,res) {
         })
         req.on('end',function() {
             let obj = JSON.parse(str);
-            read('./userData.json',(data) => {
+            read('./data/userData.json',(data) => {
                 let d = JSON.parse(data);
                 let ary = d.department;
                 for (let i = 0; i < ary.length; i++) {
@@ -352,7 +389,7 @@ http.createServer(function (req,res) {
                 d.department = ary;
                 let list = getTress(ary,0);
                 d.list = list;
-                write('./userData.json',JSON.stringify(d),() => {
+                write('./data/userData.json',JSON.stringify(d),() => {
                     res.end('success')
                 })
             })
@@ -367,7 +404,7 @@ http.createServer(function (req,res) {
         })
         req.on('end',function() { 
             let obj = JSON.parse(str);
-            read('./userData.json',(data) => {
+            read('./data/userData.json',(data) => {
                 let d = JSON.parse(data);
                 let messageList = d.message;
                 let change = [],itemObj = {};
@@ -405,7 +442,7 @@ http.createServer(function (req,res) {
                
                 let list = getTress(ary,0);
                 d.list = list;
-                write('./userData.json',JSON.stringify(d),() => {
+                write('./data/userData.json',JSON.stringify(d),() => {
                     res.end('success')
                 })
             })
@@ -424,7 +461,7 @@ http.createServer(function (req,res) {
             if (obj.members == 'undefined') {
                 obj.members = [];
             }
-            read('./userData.json',(data) => {
+            read('./data/userData.json',(data) => {
                 let d = JSON.parse(data);
                 let ary = d.group;
                 if (obj.id) {
@@ -438,7 +475,7 @@ http.createServer(function (req,res) {
                     ary.push(obj);
                 }
                 d.group = ary;
-                write('./userData.json',JSON.stringify(d),() => {
+                write('./data/userData.json',JSON.stringify(d),() => {
                     res.end('success')
                 })
             })
@@ -447,7 +484,7 @@ http.createServer(function (req,res) {
 
     // 删除用户组
     if (pathname == '/delUserGroupData') {
-        read('./userData.json',(data) => {
+        read('./data/userData.json',(data) => {
             let id = query.id;
             let d = JSON.parse(data);
             let ary = d.group;
@@ -455,7 +492,7 @@ http.createServer(function (req,res) {
                 return item.id !== (id * 1);
             })
             d.group = ary;
-            write('./userData.json',JSON.stringify(d),() => {
+            write('./data/userData.json',JSON.stringify(d),() => {
                 res.end('success')
             })
         })

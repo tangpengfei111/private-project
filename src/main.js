@@ -12,8 +12,11 @@ Vue.use(ElementUI);
 
 
 router.beforeEach((to,from,next) => {
+  console.log(to.matched)
   document.title = `MDM管理平台 | ${to.meta.til}`;
   next();
+ 
+  
 })
 
 new Vue({
