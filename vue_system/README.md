@@ -12,7 +12,7 @@
 
 
 ## 说明
-> 分别进入vue_system和vue_system_server安装依赖、启动项目
+> 分别进入vue_system_front_end和vue_system_server安装依赖、启动项目
 
 ``` bash
 # 安装依赖
