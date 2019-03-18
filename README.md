@@ -1,29 +1,20 @@
-# houtai
+业余时间写的关于vue两个框架的训练，以及一些小工具
 
-## Project setup
-```
-yarn install
-```
+* [vue.js + node.js  后台管理平台(vue_system)](#vue_system)<br/>
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+>技术：Vue, Vue-Router, Vuex, Node.js, Express, Jwt, WebPack
 
-### Run your tests
-```
-yarn run test
-```
+　　项目模仿的是中国电信一款管理手机的MDM管理平台，包括设备管理、用户管理、应用管理、策略管理、推送管理等模块,实现根据设备、用户信息的增删改查，用户的登录验证，路由拦截等功能；后台为Node.js，配合前端的vue技术栈实现前后端联调。重点练习vue的运用，数据的增删改查、手机与用户之间的关联、递归生成树状导航、Echarts插件运用、前后端数据交互等。实际项目中部分涉及手机终端定位、策略调控，推送信息等，无法实现。
 
-### Lints and fixes files
-```
-yarn run lint
-```
+[项目代码](https://github.com/tangpengfei111/private-project)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+功能：
+
+* 用户注册登录、退出登录
+* 添加手机信息，实现用户、手机关联
+* 用户分组、部门之间进行关联
+* 用户操作查询
+
+
+

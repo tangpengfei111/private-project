@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.el-table thead {
+    color:#606266;
+    
+}
+body,html {
+    min-width: 1088px;
+}
+.el-dialog__body {
+    padding: 0 20px;
+}
+.el-submenu__title {
+    height: 30px;
+    line-height: 30px;
+}
+.el-form-item__content {
+    height: 20px;
+}
+.el-scrollbar__wrap {
+    overflow-x: hidden;
+}
+.el-radio__label {
+    padding-left: 0;
+}
