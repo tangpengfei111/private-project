@@ -1,5 +1,5 @@
 <template>
-    <el-container class='box'>
+    <el-container style="border: 1px solid #eee">
         <el-aside width="200px">
             <my-menu til='strategy'></my-menu>
         </el-aside>
@@ -17,9 +17,6 @@
 </script>
 
 <style scoped>
-    .box {
-        height: 100%;
-    }
     .el-aside {
         background-color: #D3DCE6;
         color: #333;

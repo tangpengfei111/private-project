@@ -7,7 +7,6 @@
         <el-button v-if='departmentFlag || groupFlag' type="danger" size="small" @click='delAll'>删除已选</el-button>
 
 
-
         <el-dialog title="关联部门" :visible="relevanceVisible" :show-close='false' width='35%' top='10vh'>
             <div class="myMenuBox">
                 <el-menu
@@ -27,8 +26,8 @@
         </el-dialog>
 
 
-        <el-dialog title="添加部门" :visible="departmentVisible" :show-close='false' width='35%' top='10vh'>
-      <el-form :model="form">
+        <el-dialog title="添加部门" :visible="departmentVisible" :show-close='false' width='30%' top='10vh'>
+      <el-form :model="form" size='mini'>
         <el-form-item label="部门代码" label-width="100">
           <el-input v-model.number="form.code" autocomplete="off"></el-input>
         </el-form-item>

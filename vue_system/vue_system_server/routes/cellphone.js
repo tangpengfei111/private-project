@@ -5,7 +5,7 @@ const utils = require('../utils/utils')
 
 
 // 所有设备列表
-router.get('/allList',function (req,res,next) {
+router.get('/allList',function (req,res) {
     utils.read('./data/cellphoneData.json',(data) => {
         let d = JSON.parse(data);
         res.send(d.basic);
@@ -13,7 +13,7 @@ router.get('/allList',function (req,res,next) {
 })
 
 // 添加手机设备
-router.post('/addItemData',function (req,res,next) {
+router.post('/addItemData',function (req,res) {
     let obj = req.body;
     if (obj.id) {
         utils.read('./data/cellphoneData.json',(data) => {
@@ -45,7 +45,7 @@ router.post('/addItemData',function (req,res,next) {
 })
 
 // 删除手机设备
-router.get('/delItemData',function (req,res,next) {
+router.get('/delItemData',function (req,res) {
     let id = req.query.id;
     utils.read('./data/cellphoneData.json',(data) => {
         if (id === undefined) {
@@ -65,7 +65,7 @@ router.get('/delItemData',function (req,res,next) {
 })
 
 // 所有设备分组信息
-router.get('/groupMessage',function(req,res,next) {
+router.get('/groupMessage',function(req,res) {
     utils.read('./data/cellphoneData.json',(data) => {
         let d = JSON.parse(data);
         res.send(d.group);
@@ -73,7 +73,7 @@ router.get('/groupMessage',function(req,res,next) {
 })
 
 // 添加设备分组
-router.post('/addGroup',function(req,res,next) {
+router.post('/addGroup',function(req,res) {
     let obj = req.body;
     console.log(obj)
     // utils.read('./data/cellphoneData.json',(data) => {
@@ -97,7 +97,7 @@ router.post('/addGroup',function(req,res,next) {
 })
 
 // 删除设备分组
-router.get('/delGroup',function(req,res,next) {
+router.get('/delGroup',function(req,res) {
     let id = req.query.id;
     utils.read('./data/cellphoneData.json',(data) => {
         let d = JSON.parse(data);

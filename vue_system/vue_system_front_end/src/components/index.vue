@@ -37,10 +37,11 @@
                 </div>
             </router-link>
             <div class="admin">
-                <router-link to='/admin'>
-                    <div class="iconfont icon-set"></div>
-                    <div>admin</div>
-                </router-link>
+                <el-button @click='exit' >
+                    <div class="iconfont icon-tuichu">
+                         <span>退出</span>
+                    </div>
+                </el-button>
             </div>
         </div>
         <div class="conent">
@@ -52,7 +53,22 @@
 <script>
 
     export default {
-        
+        methods: {
+            exit() {
+                let token = {token:localStorage.getItem('token')};
+                let p = this.$store.dispatch('exit',token);
+                p.then((data) => {
+                    if (data.data.status == 220) {
+                        this.$message({
+							type: 'success',
+							message: data.data.msg
+                        });
+                        this.$router.push('login');
+                        localStorage.clear();
+                    }
+                })
+            }
+        }
     }
 </script>
 
@@ -83,26 +99,15 @@
         }
         .admin {
             position: absolute;
-            top: 28px;
-            right: 30px;
-            a {
-                height: 30px;
-                line-height: 30px;
-                text-decoration: none;
-                color: rgb(39, 60, 245);
-                overflow: hidden;
-                div {
-                    float: right;
-                    margin-right:0; 
-                    &:nth-child(1) {
-                        font-size: 18px;
-                    }
-                    &:nth-child(2) {
-                        font-size: 14px;
-                        margin-right: 4px;
-                    }
-                }
+            top: 10px;
+            right: 20px;
+            .el-button {
+                width: 80px;
+                margin-left:30px;
+                font-size: 16px;
+                padding: 10px;
             }
+            
         }
     }
     

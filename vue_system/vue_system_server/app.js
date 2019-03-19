@@ -15,9 +15,6 @@ var admin = require('./routes/admin');
 
 
 
-
-
-
 var logDirectory = path.join(__dirname, 'log')
 // 确保日志目录存在
 // existsSync 以同步的方法检测目录是否存在,存在返回true,不存在返回false
@@ -63,30 +60,35 @@ app.all('*',function (req, res, next) {
 
 // 路由拦截
 app.use((req, res, next) => {
-    if (req.url.includes('admin')) {
+
+    if (/admin\/(load|register|exit)/.test(req.url)) {
         next();
     } else  {
-        if (!req.headers.authorization) {
+        let str = req.headers.authorization;
+        if (!str) {
             res.send({status: 500, msg: '当前未登录'});
-        }
-        let token = req.headers.authorization.replace(/[""]/g,'');
-        let result = jwt.verifyToken(token);
-        if (result) {
-            result == 'err' ? res.send({status: 403, msg: '登录已过期,请重新登录'}) : null;
-            next();
+        }else {
+            if(typeof str !== "string") return;
+            let token = str.replace(/["']/g,'');
+            let result = jwt.verifyToken(token);
+            if (result) {
+                result == 'err' ? res.send({status: 403, msg: '登录已过期,请重新登录'}) : null;
+                option = result;
+                next();
+            }
         }
     }
 });
 
 // 设置logger
 app.use(logger((tokens, req, res) => {
-    let token = req.headers.authorization.replace(/[""]/g,'');
-    let result = jwt.verifyToken(token);
-    let user_name = result.data.user_name;
+    let token = null, result = null;
+    if (req.headers.authorization && req.headers.authorization.length > 300) {
+        token = req.headers.authorization.replace(/["']/g,'');
+        result = jwt.verifyToken(token);
+    }
+    let user_name = result ? result.data.user_name : "用户不存在";
     let date = utils.curTime(new Date());
-    // let method = tokens.method(req, res),
-    //     url = tokens.url(req, res),
-    //     status = tokens.status(req, res),
     let response = tokens['response-time'](req, res) + 'ms';
         
     return [
@@ -100,6 +102,8 @@ app.use(logger((tokens, req, res) => {
 },{stream: accessLogStream}))
 // 将静态文件目录设置为项目根目录+/public
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 app.use('/', index);
 app.use('/users', users);

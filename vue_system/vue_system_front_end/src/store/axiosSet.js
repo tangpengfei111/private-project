@@ -4,8 +4,12 @@ var instance = axios.create({});
 
 instance.interceptors.request.use(config => {
     let AUTH_TOKEN = localStorage.getItem("token");
-    if(AUTH_TOKEN && !config.url.includes("admin")){
-        config.headers.common["Authorization"] = AUTH_TOKEN;
+    if(AUTH_TOKEN){
+        if (config.url.includes("/admin/login") ) {
+            
+        }else {
+            config.headers.common["Authorization"] = AUTH_TOKEN;
+        }
     }
     return config;
 },err => {

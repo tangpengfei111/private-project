@@ -19,6 +19,7 @@
 <style scoped>
     .box {
         height: 100%;
+        border: 1px solid #eee;
     }
     .el-aside {
         background-color: #D3DCE6;

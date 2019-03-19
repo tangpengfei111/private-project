@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container style="border: 1px solid #eee">
         <el-aside width="200px">
             <my-menu til='user'></my-menu>
         </el-aside>

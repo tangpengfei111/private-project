@@ -4,14 +4,14 @@ const utils = require('../utils/utils');
 
 
 // 获取推送历史列表
-router.get('/historyList',function (req,res,next) {
+router.get('/historyList',function (req,res) {
     utils.read('./data/pushMessage.json',(data) => {
         res.send(data);
     })
 })
 
 // 删除历史列表数据
-router.post('/delHistoryData',function (req,res,next) {
+router.post('/delHistoryData',function (req,res) {
     let ary = req.body;
     utils.read('./data/pushMessage.json',(data) => {
         let arr = JSON.parse(data);
@@ -38,7 +38,7 @@ router.post('/delHistoryData',function (req,res,next) {
 })
 
 // 添加推送消息
-router.post('/addMessage',function (req,res,next) {
+router.post('/addMessage',function (req,res) {
     let obj = req.body;
     utils.read('./data/pushMessage.json',(data) => {
         let ary = JSON.parse(data);
@@ -51,7 +51,7 @@ router.post('/addMessage',function (req,res,next) {
 })
 
 // 获取推送对象 分组列表
-router.get('/getGroup',function (req,res,next) {
+router.get('/getGroup',function (req,res) {
     let obj = {
         cellphone: [],
         userGroup: [],

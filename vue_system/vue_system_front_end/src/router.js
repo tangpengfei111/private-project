@@ -10,7 +10,6 @@ const application = r => require.ensure([], ()=> r(require('@/components/applica
 const strategy = r => require.ensure([], () => r(require('@/components/strategy/strategy')), 'strategy');
 const push = r => require.ensure([], () => r(require('@/components/push/push')), 'push');
 const set = r => require.ensure([], () => r(require('@/components/set/set')), 'set');
-const admin = r => require.ensure([], () => r(require('@/components/admin/admin')), 'admin');
 const login = r => require.ensure([], () => r(require('@/components/login/login')), 'login');
 const noFind = r => require.ensure([], () => r(require('@/components/login/noFind')), 'noFind');
 
@@ -167,18 +166,28 @@ const routes = [
       },
       {
         path: '/set',
+        redirect: '/adminList',
         component: set,
         meta: {
           til: '设置'
-        }
-      },
-      {
-        path: '/admin',
-        component: admin,
-        meta: {
-          til: '管理员'
-        }
-      },
+        },
+        children: [
+          {
+            path: '/adminList',
+            component:() => import('./components/set/adminList.vue'),
+            meta: {
+              til: '管理员列表'
+            }
+          },
+          {
+            path: '/log',
+            component:() => import('./components/set/log.vue'),
+            meta: {
+              til: '操作记录'
+            }
+          }
+        ]
+      }
     ]
   },
   {

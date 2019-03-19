@@ -8,7 +8,7 @@ module.exports = {
         let secretPiv = fs.readFileSync(path.join(__dirname, '../pem/pri.key'));
         let token = jwt.sign({
             data, 
-            exp: created + 60 * 30
+            exp: created + 600 * 30
         }, secretPiv, {algorithm:'RS256'});
         return token;
     },

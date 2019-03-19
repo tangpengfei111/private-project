@@ -8,12 +8,11 @@ export function load({commit},option) {
     return axios.post('/admin/load',option)
 }
 // 退出登录
-export function exitLogin({commit},option) {
+export function exit({commit},option) {
     return axios.post('/admin/exit',option)
 }
 // 注册帐号
 export function register({commit},option) {
-    console.log(option)
     return axios.post('/admin/register',option)
 }
 // 获取所有设备信息
@@ -158,5 +157,11 @@ export function getPushList({commit},str) {
     })
 }
 
-
+// 获取管理员列表
+export function getAdminList({commit}) {
+    axios.get('/admin/list').then(data => {
+        console.log(data.data)
+        commit('allAdminList',data.data)
+    })
+}
 

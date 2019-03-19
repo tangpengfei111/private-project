@@ -4,7 +4,7 @@ const utils = require('../utils/utils');
 
 
 // 获取用户信息
-router.get('/allMessage',function(req, res, next) {
+router.get('/allMessage',function(req, res) {
     utils.retrieveUser();
     utils.read('./data/userData.json',(data) => {
         res.send(data)
@@ -12,7 +12,7 @@ router.get('/allMessage',function(req, res, next) {
 })
 
 // 添加用户组
-router.post('/addGroupData',function(req, res, next) {
+router.post('/addGroupData',function(req, res) {
     let obj = req.body;
     if (obj.members == 'undefined') {
         obj.members = [];
@@ -39,7 +39,7 @@ router.post('/addGroupData',function(req, res, next) {
 
 
 // 删除用户组
-router.get('/delGroupData',function(req, res, next) {
+router.get('/delGroupData',function(req, res) {
     let id = req.query.id;
     utils.read('./data/userData.json',(data) => {
         let d = JSON.parse(data);
@@ -80,7 +80,7 @@ router.get('/delGroupData',function(req, res, next) {
 // })
 
 // 添加部门数据
-router.post('/addDepartmentData',function(req, res, next) {
+router.post('/addDepartmentData',function(req, res) {
     let obj = req.body
     obj.mumbers = [];
     if (!obj.higherCode) {
@@ -103,7 +103,7 @@ router.post('/addDepartmentData',function(req, res, next) {
 })
 
 // 变更部门数据
-router.post('/changeDepartmentData',function(req,res,next) {
+router.post('/changeDepartmentData',function(req,res) {
     let obj = req.body;
     utils.read('./data/userData.json',(data) => {
         let d = JSON.parse(data);
@@ -128,7 +128,7 @@ router.post('/changeDepartmentData',function(req,res,next) {
 
 
 // 关联部门
-router.post('/relevanceDepartment',function(req, res, next) {
+router.post('/relevanceDepartment',function(req, res) {
     let obj = req.body;
     utils.read('./data/userData.json',(data) => {
         let d = JSON.parse(data);

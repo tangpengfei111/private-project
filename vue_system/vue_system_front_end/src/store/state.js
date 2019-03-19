@@ -8,6 +8,7 @@ const state = {
     userMenusList:[],
     pushHistoryList:[],
     pushMessage:[],
+    adminList:[],
     userGroupVisible:false,
     userDepartmentVisible:false
     

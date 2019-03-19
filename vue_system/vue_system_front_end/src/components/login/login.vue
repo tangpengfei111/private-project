@@ -1,51 +1,64 @@
 <template>
     <div class="login_page fillcontain">
-	  	<transition name="form-fade" mode="in-out">
-	  		<section class="form_contianer" v-show="showLogin">
-		  		<div class="manage_tip">
-		  			<p>后台管理系统</p>
-		  		</div>
-		    	<el-form :model="loginForm" :rules="rules" ref="loginForm">
-					<el-form-item prop="username">
-						<el-input v-model="loginForm.username" placeholder="用户名"><span>dsfsf</span></el-input>
-					</el-form-item>
-					<el-form-item prop="password">
-						<el-input type="password" placeholder="密码" v-model="loginForm.password"></el-input>
-					</el-form-item>
-					<el-form-item>
-				    	<el-button 
-							type="primary" 
-							@click="submitForm('loginForm')" 
-							class="submit_btn" 
-							size="small">登陆
-						</el-button>
-						<el-button 
-							type="primary" 
-							class="submit_btn" 
-							@click="enroll" 
-							size="small">注册
-						</el-button>
-				  	</el-form-item>
-				</el-form>
-				<div class='fotter_box'>
-					<p class="tip">温馨提示：</p>
-					<p class="tip">未登录过的新用户，请点击注册按钮</p>
-					<p class="tip">注册过的用户可凭账号密码登录</p>
-				</div>
-	  		</section>
-	  	</transition>
-		<my-form></my-form>
+		<div class='bg'>
+			<transition name="form-fade" mode="in-out">
+				<section class="form_contianer" v-show="showLogin">
+					<div class="manage_tip">
+						<p>后台管理系统</p>
+					</div>
+					<el-form :model="loginForm" :rules="rules" ref="loginForm">
+						<el-form-item prop="username">
+							<el-input 
+								v-model="loginForm.username" 
+								placeholder="用户名" 
+								autocomplete="off">
+								<span>dsfsf</span>
+							</el-input>
+						</el-form-item>
+						<el-form-item prop="password">
+							<el-input 
+								type="password" 
+								v-model="loginForm.password" 
+								placeholder="密码" 
+								autocomplete="off">
+							</el-input>
+						</el-form-item>
+						<el-form-item>
+							<el-button 
+								type="primary" 
+								@click="submitForm('loginForm')" 
+								class="submit_btn" 
+								size="small">登陆
+							</el-button>
+							<el-button 
+								type="primary" 
+								class="submit_btn" 
+								@click="enroll" 
+								size="small">注册
+							</el-button>
+						</el-form-item>
+					</el-form>
+					<div class='fotter_box'>
+						<p>温馨提示：</p>
+						<p>未登录过的新用户，请点击注册按钮</p>
+						<p>注册过的用户可凭账号密码登录</p>
+					</div>
+				</section>  
+			</transition>
+			<my-register :flag='flag' @click='fn'></my-register>
+		</div>
   	</div>
 </template>
 
 <script>
-import form from './form.vue'
+import register from './register.vue'
     export default {
          data(){
 			return {
 				loginForm: {
 					username: '',
 					password: '',
+					
 				},
 				rules: {
 					username: [
@@ -56,10 +69,11 @@ import form from './form.vue'
 					],
 				},
 				showLogin: false,
+				flag: false
 			}
 		},
 		components: {
-			'my-form':form
+			'my-register':register
 		},
 		mounted(){
 			this.showLogin = true;
@@ -75,7 +89,7 @@ import form from './form.vue'
 						}
 						let p = this.$store.dispatch('load',obj)
 						p.then((data) => {
-							if (data.data.status == '200') {
+							if (data.data.status == '210') {
 								localStorage.setItem('token',JSON.stringify(data.data.token))
 								this.$message({
 									type: 'success',
@@ -83,37 +97,44 @@ import form from './form.vue'
 								});
 								console.log(data.data)
 								this.$router.push('home');
+								return;
 							}else if (data.data.status == '400') {
 								this.$message({
 									type: 'error',
 									message: data.data.msg
 								});
-								
+								this.$refs[formName].resetFields();
+								return;
 							}else if (data.data.status == '404') {
 								this.$message({
 									type: 'error',
 									message: data.data.msg
 								});
-								
+								this.$refs[formName].resetFields();
+								return;
 							}
 						}) 
 					} else {
 						this.$notify.error({
 							title: '错误',
-							message: '请输入正确的用户名密码',
-							offset: 100
+							message: '请输用户名和密码',
+							offset: 30
 						});
 						return false;
 					}
 				});
 			},
 			enroll() {
-				
+				this.flag = true;
+				this.$refs.loginForm.resetFields();
 			},
 			isHeight() {
 				let height = document.documentElement.clientHeight;
 				let ele = document.getElementsByClassName('login_page')[0];
 				ele.style.height = height + 'px';
+			},
+			fn(val) {
+				this.flag = val;
 			}
 		}
 	}
@@ -121,7 +142,24 @@ import form from './form.vue'
 
 <style scoped lang='less'>
 	.login_page{
-		background-color: #324057;
+		.bg {
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(135deg,#00f2ff,#275ffe,#5fc0d0,#5d76ff,#275ffe,#00f2ff);
+			background-size: 1000% 1000%;
+			animation: bg 27s ease infinite;
+		}
+		@keyframes bg {
+			0% {
+				background-position: 0% 50%;
+			}
+			50%{
+				background-position: 100% 50%;
+			}
+			100%{
+				background-position: 0% 50%;
+			}
+		}
 	}
 	.manage_tip{
 		position: absolute;
@@ -152,7 +190,14 @@ import form from './form.vue'
 			margin: 0 25px;
 		}
 		.fotter_box {
-			margin-top: 30px;
+			margin-top: 50px;
+			p {
+				font-size: 14px;
+				color: rgb(226, 242, 245);
+			}
+		}
+		.el-form-item {
+			margin: 30px auto;
 		}
 	}
 	.tip{

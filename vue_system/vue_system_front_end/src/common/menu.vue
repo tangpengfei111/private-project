@@ -82,7 +82,7 @@
                         },
                         {
                             index:'applicationClass',
-                            title: '应用列表'
+                            title: '应用分类'
                         }
                     ]
                 }else if (this.til === 'push') {
@@ -94,6 +94,17 @@
                         {
                             index:'pushHistory',
                             title: '推送历史'
+                        }
+                    ]
+                }else if (this.til === 'set') {
+                    this.ary = [
+                        {
+                            index:'adminList',
+                            title: '管理员列表'
+                        },
+                        {
+                            index:'log',
+                            title: '操作记录'
                         }
                     ]
                 }

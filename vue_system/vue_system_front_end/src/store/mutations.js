@@ -72,3 +72,6 @@ export function allPushData(state,option) {
 export function pushHistoryList(state,option) {
     state.pushHistoryList = option;
 }
+export function allAdminList(state,option) {
+    state.adminList = option;
+}

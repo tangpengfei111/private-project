@@ -31,6 +31,4 @@
 </script>
 
 <style scoped>
-    /* .message,.distribute,.failure,.register {
-    } */
 </style>

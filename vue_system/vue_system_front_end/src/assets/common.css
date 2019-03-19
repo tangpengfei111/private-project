@@ -17,9 +17,6 @@ body,html {
     height: 30px;
     line-height: 30px;
 }
-.el-form-item__content {
-    height: 20px;
-}
 .el-scrollbar__wrap {
     overflow-x: hidden;
 }
