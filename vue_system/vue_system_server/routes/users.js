@@ -149,6 +149,7 @@ router.post('/relevanceDepartment',function(req, res) {
             }
         })
         let ary = d.department;
+        console.log(change)
         ary.forEach((item) => {
             if (change != []) {
                 for (let i = 0; i < change.length; i++) {
@@ -167,7 +168,8 @@ router.post('/relevanceDepartment',function(req, res) {
         d.department = ary;
         let list = utils.getTress(ary,0);
         d.list = list;
-        write('./data/userData.json',JSON.stringify(d),() => {
+        console.log(d)
+        utils.write('./data/userData.json',JSON.stringify(d),() => {
             res.send('success')
         })
     })

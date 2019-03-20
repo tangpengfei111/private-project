@@ -122,7 +122,7 @@ export function changeDepartment({commit},option) {
 export function relevanceDepartment({commit},option) {
     axios.post('/users/relevanceDepartment',option).then((data) => {
        if(data.data == 'success') {
-        axios.get('/user/allMessage').then((data) => {
+        axios.get('/users/allMessage').then((data) => {
             commit('getAllUserData',data.data)
         })
        }

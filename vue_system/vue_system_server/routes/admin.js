@@ -46,7 +46,7 @@ router.post('/register', function (req, res) {
     let name = req.body.username,
         pass = md5Pwd(req.body.password),
         id = Math.random() * 100000000000000000;
-    let date = utils.curTime(new Date());
+    let date = log.curTime(new Date());
     let obj = {
         user_id: id,
         user_name: name,

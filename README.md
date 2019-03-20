@@ -12,9 +12,17 @@
 功能：
 
 * 用户注册登录、退出登录
-* 添加手机信息，实现用户、手机关联
+* 添加手机信息，实现用户、部门关联
 * 用户分组、部门之间进行关联
 * 用户操作查询
 
+注册登录
+![image](https://github.com/tangpengfei111/private-project/blob/master/vue_system/load.gif)
+
+添加部门
+![image](https://github.com/tangpengfei111/private-project/blob/master/vue_system/associated.gif)
+
+关联部门
+![image](https://github.com/tangpengfei111/private-project/blob/master/vue_system/addDepartment.gif)
 
 
