@@ -16,7 +16,7 @@ Vue.use(ElementUI);
 
 router.beforeEach((to,from,next) => {
   NProgress.start(); // 开启Progress
-  if(localStorage.getItem('token') || to.path == '/404'){
+  if(sessionStorage.getItem('token') || to.path == '/404'){
     document.title = `MDM管理平台 | ${to.meta.til}`;
     next();
   }else{

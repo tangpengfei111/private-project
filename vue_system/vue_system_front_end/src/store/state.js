@@ -9,6 +9,7 @@ const state = {
     pushHistoryList:[],
     pushMessage:[],
     adminList:[],
+    logList:[],
     userGroupVisible:false,
     userDepartmentVisible:false
     

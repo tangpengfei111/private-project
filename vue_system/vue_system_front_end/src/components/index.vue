@@ -16,7 +16,7 @@
                     <span>用户管理</span>
                 </div>
             </router-link>
-            <router-link to='/applicationList'>
+            <!-- <router-link to='/applicationList'>
                 <div class='iconfont icon-application'>
                     <span>应用管理</span>
                 </div>
@@ -25,7 +25,7 @@
                 <div class='iconfont icon-strategy'>
                     <span>策略管理</span>
                 </div>
-            </router-link>
+            </router-link> -->
             <router-link to='/newInformation'>
                 <div class='iconfont icon-Push'>
                     <span>推送管理</span>
@@ -55,7 +55,7 @@
     export default {
         methods: {
             exit() {
-                let token = {token:localStorage.getItem('token')};
+                let token = {token:sessionStorage.getItem('token')};
                 let p = this.$store.dispatch('exit',token);
                 p.then((data) => {
                     if (data.data.status == 220) {
@@ -64,7 +64,7 @@
 							message: data.data.msg
                         });
                         this.$router.push('login');
-                        localStorage.clear();
+                        sessionStorage.removeItem('token')
                     }
                 })
             }
@@ -85,7 +85,7 @@
             text-decoration: none;
             color: black;
             div {
-                margin-left:30px;
+                margin-left:70px;
                 float: left;
                 font-size: 18px;
                 &:nth-child(1) {

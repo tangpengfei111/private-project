@@ -102,14 +102,5 @@ module.exports = {
             }
         
         })
-    },
-    curTime(Date) {
-        let year = Date.getFullYear();
-        let month = Date.getMonth();
-        let date = Date.getDate();      
-        let hour = Date.getHours();     
-        let minutes = Date.getMinutes();  
-        let second = Date.getSeconds(); 
-        return `${year}年${month + 1}月${date}日 ${hour}:${minutes}:${second}`;
     }
 }

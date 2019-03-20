@@ -152,7 +152,7 @@
                 this.$emit('changeFlag');
             },
             delAll() {
-                // console.log(this.itemData)
+                
             },
             userGroupIsShow() {
                 this.$store.commit('userGroupVisibleIsShow');

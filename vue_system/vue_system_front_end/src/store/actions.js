@@ -1,5 +1,5 @@
 import axios from './axiosSet'
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'http://localhost:8000';
 
 
 
@@ -160,8 +160,18 @@ export function getPushList({commit},str) {
 // 获取管理员列表
 export function getAdminList({commit}) {
     axios.get('/admin/list').then(data => {
-        console.log(data.data)
         commit('allAdminList',data.data)
+    })
+}
+
+// 获取日志文件列表
+export function getLogList({commit},str) {
+    axios.get('/admin/logList',{
+        params: {
+            time: str
+        }
+    }).then(data => {
+        commit('allLogList',data.data)
     })
 }
 

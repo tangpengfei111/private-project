@@ -2,7 +2,7 @@
     <div class='list_box'>
         <div class='list'>
             <div class='til'>{{til}}</div>
-            <el-table :data='listdata' v-for='(item,index) in listdata' :key='index' style="width: 100%">
+            <el-table :data='listdata' style="width: 100%">
                 <el-table-column v-if='flag' prop="name" label="持有人" width="180" color='black'></el-table-column>
                 <el-table-column v-if='flag2' prop="appName" label="应用名称" width="150"></el-table-column>
                 <el-table-column prop="system" label="操作系统" ></el-table-column>

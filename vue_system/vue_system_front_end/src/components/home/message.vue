@@ -30,34 +30,42 @@
                 total: [
                     {
                         name:'总设备数',
-                        count: 10
+                        count: 167
                     },
                     {
                         name:'总用户数',
-                        count: 8
+                        count: 159
                     }
                 ],
                 messageData: [
                     {
-                        name: '持有人',
+                        name: '王小红',
                         system: '操作系统',
-                        enrollDate: '注册日期',
-                        appName: '应用名称',
-                        count: '安装次数',
-                        version: '版本号'
+                        enrollDate: '2018-05-08',
+                        appName: '微信',
+                        count: '167',
+                        version: 'Android 9'
+                    },
+                    {
+                        name: 'xxxx',
+                        system: '操作系统',
+                        enrollDate: '2018-08-18',
+                        appName: 'qq',
+                        count: '150',
+                        version: 'Android 9'
                     }
                 ],
                 cellphoneState: [
                     {
                         name:'激活',
-                        value: 8,
+                        value: 88,
                         itemStyle: {
                             color: '#61a0a8'
                         }
                     },
                     {
                         name:'未激活',
-                        value: 2,
+                        value: 3,
                         itemStyle: {
                             color: '#d48265'
                         }

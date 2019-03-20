@@ -75,25 +75,24 @@ router.get('/groupMessage',function(req,res) {
 // 添加设备分组
 router.post('/addGroup',function(req,res) {
     let obj = req.body;
-    console.log(obj)
-    // utils.read('./data/cellphoneData.json',(data) => {
-    //     let d = JSON.parse(data);
-    //     let ary = d.group;
-    //     if (obj.id) {
-    //         for (let i = 0; i < ary.length; i++) {
-    //             if (ary[i].id == obj.id) {
-    //                 ary[i] = obj
-    //             }
-    //         }
-    //     }else {
-    //         obj.id = Math.random();
-    //         ary.push(obj);
-    //     }
-    //     d.group = ary;
-    //     utils.write('./data/cellphoneData.json',JSON.stringify(d),() => {
-    //         res.send('success')
-    //     })
-    // })  
+    utils.read('./data/cellphoneData.json',(data) => {
+        let d = JSON.parse(data);
+        let ary = d.group;
+        if (obj.id) {
+            for (let i = 0; i < ary.length; i++) {
+                if (ary[i].id == obj.id) {
+                    ary[i] = obj
+                }
+            }
+        }else {
+            obj.id = Math.random();
+            ary.push(obj);
+        }
+        d.group = ary;
+        utils.write('./data/cellphoneData.json',JSON.stringify(d),() => {
+            res.send('success')
+        })
+    })  
 })
 
 // 删除设备分组

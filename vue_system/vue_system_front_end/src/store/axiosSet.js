@@ -3,7 +3,7 @@ import axios from 'axios'
 var instance = axios.create({});
 
 instance.interceptors.request.use(config => {
-    let AUTH_TOKEN = localStorage.getItem("token");
+    let AUTH_TOKEN = sessionStorage.getItem("token");
     if(AUTH_TOKEN){
         if (config.url.includes("/admin/login") ) {
             
@@ -17,7 +17,7 @@ instance.interceptors.request.use(config => {
 });
 instance.interceptors.response.use(res => {
     if(res.headers.token){
-        localStorage.setItem('token',res.headers.token);
+        sessionStorage.setItem('token',res.headers.token);
     }
     return res;
 },err => {

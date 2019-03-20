@@ -6,6 +6,7 @@ var logger = require('morgan');
 var FileStreamRotator = require('file-stream-rotator');
 var jwt = require('./utils/jwt')
 var utils = require('./utils/utils')
+var log = require('./utils/log')
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -88,17 +89,17 @@ app.use(logger((tokens, req, res) => {
         result = jwt.verifyToken(token);
     }
     let user_name = result ? result.data.user_name : "用户不存在";
-    let date = utils.curTime(new Date());
-    let response = tokens['response-time'](req, res) + 'ms';
+    let date = log.curTime(new Date());
+    let responseTime = tokens['response-time'](req, res) + 'ms';
         
     return [
-        `date:${date}`,
-        `user_name:${user_name}`,
-        `method:${tokens.method(req, res)}`,
-        `url:${tokens.url(req, res)}`,
-        `status:${tokens.status(req, res)}`,
-        `responseTime:${response}`
-    ]
+        date,
+        user_name,
+        tokens.method(req, res),
+        tokens.url(req, res),
+        tokens.status(req, res),
+        responseTime
+    ].join(' ')
 },{stream: accessLogStream}))
 // 将静态文件目录设置为项目根目录+/public
 app.use(express.static(path.join(__dirname, 'public')));

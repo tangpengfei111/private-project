@@ -75,3 +75,6 @@ export function pushHistoryList(state,option) {
 export function allAdminList(state,option) {
     state.adminList = option;
 }
+export function allLogList(state,option) {
+    state.logList = option;
+}

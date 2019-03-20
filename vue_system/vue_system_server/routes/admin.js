@@ -4,6 +4,8 @@ var utils = require('../utils/utils');
 var jwt = require('../utils/jwt');
 var utility = require('utility');
 var fs = require('fs');
+var path = require('path')
+var log = require('../utils/log')
 
 // 密码加密
 function md5Pwd(pwd) {
@@ -100,7 +102,6 @@ router.post('/exit', function (req, res) {
 // 数据列表
 router.get('/list',function (req,res) {
   utils.read('./data/adminData.json',(data) => {
-    console.log(data)
     let d = JSON.parse(data);
     let arr = [], obj = {};
     d.forEach(item => {
@@ -119,6 +120,20 @@ router.get('/list',function (req,res) {
   })
 })
 
+// 日志列表
+router.get('/logList',function (req,res) {
+  let time = req.query.time;
+  let url = path.join(__dirname,`log/access-${time}.log`);
+  url = url.replace('\\routes','')
+  utils.read(url,(data) => {
+      if (typeof data != 'string') return;
+      var ary = data.split('\n')
+      ary.splice(ary.length-1,1);
+      ary = log.screen(ary);
+      ary = ary.reverse();
+      res.send(ary)
+  })
+})
 
 
 

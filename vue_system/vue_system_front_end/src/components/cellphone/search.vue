@@ -66,7 +66,6 @@ export default {
     },
     addGroup() {
       this.addGroupVisible = false;
-      console.log(this.groupData)
       if (this.groupData.name) {
         this.$store.dispatch('addCellphoneGroupData',this.groupData)
       }

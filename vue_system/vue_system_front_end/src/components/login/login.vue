@@ -90,7 +90,7 @@ import register from './register.vue'
 						let p = this.$store.dispatch('load',obj)
 						p.then((data) => {
 							if (data.data.status == '210') {
-								localStorage.setItem('token',JSON.stringify(data.data.token))
+								sessionStorage.setItem('token',JSON.stringify(data.data.token))
 								this.$message({
 									type: 'success',
 									message: data.data.msg

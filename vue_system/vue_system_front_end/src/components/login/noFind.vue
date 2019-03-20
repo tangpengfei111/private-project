@@ -1,6 +1,6 @@
 <template>
     <div class='onfind_box'>
-        asdsadsadsad
+        页面不存在
         <!-- <img src="../../assets.404.png" alt=""> -->
     </div>
 </template>
